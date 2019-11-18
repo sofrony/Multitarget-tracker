@@ -380,6 +380,7 @@ void VideoExample::DrawTrack(cv::Mat frame,
                              bool drawTrajectory
                              )
 {
+    const size_t SIZE = 3;
     auto ResizePoint = [resizeCoeff](const cv::Point& pt) -> cv::Point
     {
         return cv::Point(resizeCoeff * pt.x, resizeCoeff * pt.y);
@@ -390,7 +391,7 @@ void VideoExample::DrawTrack(cv::Mat frame,
     track.m_rrect.points(rectPoints);
     for (int i = 0; i < 4; ++i)
     {
-        cv::line(frame, ResizePoint(rectPoints[i]), ResizePoint(rectPoints[(i+1) % 4]), color);
+        cv::line(frame, ResizePoint(rectPoints[i]), ResizePoint(rectPoints[(i+1) % 4]), color, SIZE);
     }
 
     if (drawTrajectory)
@@ -402,16 +403,16 @@ void VideoExample::DrawTrack(cv::Mat frame,
             const TrajectoryPoint& pt1 = track.m_trace.at(j);
             const TrajectoryPoint& pt2 = track.m_trace.at(j + 1);
 #if (CV_VERSION_MAJOR >= 4)
-            cv::line(frame, ResizePoint(pt1.m_prediction), ResizePoint(pt2.m_prediction), cl, 1, cv::LINE_AA);
+            cv::line(frame, ResizePoint(pt1.m_prediction), ResizePoint(pt2.m_prediction), cl, SIZE, cv::LINE_AA);
 #else
-            cv::line(frame, ResizePoint(pt1.m_prediction), ResizePoint(pt2.m_prediction), cl, 1, CV_AA);
+            cv::line(frame, ResizePoint(pt1.m_prediction), ResizePoint(pt2.m_prediction), cl, SIZE, CV_AA);
 #endif
             if (!pt2.m_hasRaw)
             {
 #if (CV_VERSION_MAJOR >= 4)
-                cv::circle(frame, ResizePoint(pt2.m_prediction), 4, cl, 1, cv::LINE_AA);
+                cv::circle(frame, ResizePoint(pt2.m_prediction), 4, cl, SIZE, cv::LINE_AA);
 #else
-                cv::circle(frame, ResizePoint(pt2.m_prediction), 4, cl, 1, CV_AA);
+                cv::circle(frame, ResizePoint(pt2.m_prediction), 4, cl, SIZE, CV_AA);
 #endif
             }
         }

@@ -1,4 +1,5 @@
 #include "CarsCounting.h"
+#include <future>
 
 ///
 /// \brief CarsCounting::CarsCounting
@@ -48,15 +49,13 @@ void CarsCounting::Process()
 
 #ifndef SILENT_WORK
     cv::namedWindow("Video", cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
+    bool manualMode = false;
 #endif
-
-    int k = 0;
 
     double freq = cv::getTickFrequency();
 
     int64 allTime = 0;
 
-    bool manualMode = false;
     int framesCounter = m_startFrame + 1;
 
     cv::VideoCapture capture;
